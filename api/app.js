@@ -6,6 +6,7 @@ var bodyParser=require('body-parser');
 var app=express();
 
 //CARGAR RUTAS
+var user_routes=require('./routes/user');
 
 //CARGAR MIDDLEWARES
 
@@ -15,19 +16,7 @@ app.use(bodyParser.json());
 //CORS Y CABECERAS
 
 //RUTAS
-app.get('/',(req,res)=>{
-    res.status(200).send({
-        message:'Hola mundo desde NODEJS',
-       
-    });
-});
-app.post('/pruebas',(req,res)=>{
-    console.log(req.body);
-    res.status(200).send({
-    
-        message:'Acción de pruebas en el servidor de NodeJS',
-     
-    });
-});
+app.use('/api',user_routes);
+
 //EXPORTAR
 module.exports=app;
