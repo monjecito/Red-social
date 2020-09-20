@@ -9,17 +9,27 @@ var app=express();
 var user_routes=require('./routes/user');
 var follow_routes=require('./routes/follow');
 var publication_routes=require('./routes/publication');
+var message_routes=require('./routes/message');
 //CARGAR MIDDLEWARES
 
 app.use(bodyParser.urlencoded({extended:false}));       //CONVERTIR TODOS LOS DATOS EN JSON
 app.use(bodyParser.json());
 
-//CORS Y CABECERAS
+//CORS Y CABECERAS HTTP
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+ 
+    next();
+});
 
 //RUTAS
 app.use('/api',user_routes);
 app.use('/api',follow_routes);
 app.use('/api',publication_routes);
+app.use('/api',message_routes);
 
 //EXPORTAR
 module.exports=app;

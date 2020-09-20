@@ -3,10 +3,13 @@ var bcrypt = require('bcrypt-nodejs');
 var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
 var path = require('path');
+
+var Publication = require('../models/publication');
 var User = require('../models/user');
 var Follow = require('../models/follow');
 var jwt = require('../services/jwt');
 const follow = require('../models/follow');
+const publication = require('../models/publication');
 
 //METODOS DE PRUEBA
 function home(req, res) {
@@ -244,16 +247,24 @@ async function getCountFollow(user_id) {
             return count;
         })
         .catch((err) => { return handleError(err); });
- 
+
     var followed = await Follow.countDocuments({ followed: user_id })
         .exec()
         .then((count) => {
             return count;
         })
         .catch((err) => { return handleError(err); });
- 
-    return { following: following, followed: followed }
- 
+
+
+    var publications = await Publication.count({ user: user_id })
+        .exec()
+        .then((count) => {
+            return count;
+        })
+        .catch((err) => { return handleError(err); });
+
+    return { following: following, followed: followed, publication:publications }
+
 }
 
 //EDICION DATOS DE USUARIO
@@ -356,5 +367,5 @@ module.exports = {
     updateUser,
     uploadImage,
     getImageFile,
-    
+
 }
