@@ -5,6 +5,46 @@
     margin-left: 13px;
     border-bottom: 1px solid #eee;
     padding-bottom: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding-top: 20px;
 }
+.active{
+
+    background-color:whitesmoke;
+    
+    
+}
+.bg-dark{
+    background-color: grey !important;
+}
+.navbar{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px !important;
+}
+
+    .jumbotron{
+        text-align: center;
+    }
+.container{
+    width: 100% !important;
+}
+
+.dropdown-menu>li>a{
+    color: grey !important;
+}
+.dropdown-menu>li>a:hover{
+    color: black !important;
+}
+.pointer{
+    cursor: pointer;
+}
+
+
+
+
+
+

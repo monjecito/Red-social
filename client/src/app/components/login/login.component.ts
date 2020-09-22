@@ -1,4 +1,4 @@
-import { ThrowStmt } from '@angular/compiler';
+
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
@@ -33,18 +33,19 @@ export class LoginComponent implements OnInit {
     //Loguear al usuario y conseguir sus datos
     this._userService.signup(this.user).subscribe(
       Response => {
-        this.identity=Response.user;
+        this.identity = Response.user;
         console.log(this.identity);
-        if(!this.identity|| !this.identity._id){
-          this.status='error';
-        }else{
-          this.status='success';
+        if (!this.identity || !this.identity._id) {
+          this.status = 'error';
+        } else {
+         
           //Persistir datos del usuario
+          localStorage.setItem('identity', JSON.stringify(this.identity));
 
           //Conseguir el token
           this.getToken();
         }
-          
+
       },
       error => {
         var errorMessage = <any>error;
@@ -58,22 +59,26 @@ export class LoginComponent implements OnInit {
     );
   }
 
-//Devolver token perteneciente a dicho usuario logueado
-  getToken(){
-    this._userService.signup(this.user,'true').subscribe(
+  //Devolver token perteneciente a dicho usuario logueado
+  getToken() {
+    this._userService.signup(this.user, 'true').subscribe(
       Response => {
-        this.token=Response.token;
+        this.token = Response.token;
         console.log(this.token);
-        if(this.token.length<=0){
-          this.status='error';
-        }else{
-          this.status='success';
+        if (this.token.length <= 0) {
+          this.status = 'error';
+        } else {
           //Persistir token del usuario
+          localStorage.setItem('token', JSON.stringify(this.token));
 
           //Conseguir las estadísticas del usuario
-          
+            this.getCounters();
+       
+        
+
+
         }
-          
+
       },
       error => {
         var errorMessage = <any>error;
@@ -84,5 +89,20 @@ export class LoginComponent implements OnInit {
         }
       }
     );
-    }
   }
+
+  //DEVOLVER ESTADISTICAS DEL USUARIO IDENTIFICADO CON EL TOKEN
+  getCounters() {
+    this._userService.getCounters().subscribe(
+      response => {
+        localStorage.setItem('stats',JSON.stringify(response));
+        this.status='success';
+        this.router.navigate(['/']);
+
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+}

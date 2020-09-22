@@ -10,6 +10,8 @@ var Follow = require('../models/follow');
 var jwt = require('../services/jwt');
 const follow = require('../models/follow');
 const publication = require('../models/publication');
+const user = require('../models/user');
+const { domainToASCII } = require('url');
 
 //METODOS DE PRUEBA
 function home(req, res) {
@@ -263,7 +265,7 @@ async function getCountFollow(user_id) {
         })
         .catch((err) => { return handleError(err); });
 
-    return { following: following, followed: followed, publication:publications }
+    return { following: following, followed: followed, publication: publications }
 
 }
 
@@ -275,20 +277,32 @@ function updateUser(req, res) {
     //Borrar propiedad password
     delete update.password;
 
+    //Si el ID que llega es distinto al del usuario
     if (userId != req.user.sub) {
         return res.status(500).send({ message: 'No tienes permiso para actualizar los datos del usuario' });
     }
-    User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
-        if (err) return res.status(500).send({ message: 'Error en la petición' });
 
-        if (!userUpdated) return res.status(404).send({ message: 'No se ha podido actualizar el usuario' });
+    //Evitar actualización de duplicados
+    User.findOne({ 
+        $or: [
+            { email: update.email.toLowerCase() },
+            { nick: update.nick.toLowerCase() }         
+        ]
+    }).exec((err, users) => {
+       
+       
+            if (users && user._id != userId) return res.status(404).send({ message: 'Los datos ya están en uso' });
+                                
+        //Si no coinciden los datos buscará ese objeto mediante su ID para su posterior actualización.
 
-        return res.status(200).send({
-            user: userUpdated
+        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
+            if (err) return res.status(500).send({ message: 'Error en la petición' });
+
+            if (!userUpdated) return res.status(404).send({ message: 'No se ha podido actualizar el usuario' });
+
+            return res.status(200).send({user: userUpdated});
         });
     });
-
-
 }
 
 //SUBIR AVATAR DEL USUARIO
