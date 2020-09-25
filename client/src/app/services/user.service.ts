@@ -97,4 +97,23 @@ export class UserService {
 
     }
 
+    //Devolver todos los usuarios de una manera paginada
+    getUsers(page=null):Observable<any>{
+        let headers=new HttpHeaders()
+        .set('Content-type','application-json')
+        .set('Authorization',this.getToken());
+
+        return this._http.get(this.url+'users/'+page,{headers:headers});
+    }
+
+
+    //Devolver un usuario en concreto
+    getUser(id):Observable<any>{
+        let headers=new HttpHeaders()
+        .set('Content-type','application-json')
+        .set('Authorization',this.getToken());
+
+        return this._http.get(this.url+'user/'+id,{headers:headers});
+    }
+
 }

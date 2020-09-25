@@ -11,6 +11,7 @@ var md_upload=multipart({uploadDir:'./uploads/publications'});
 api.get('/probando-pub',md_authz.ensureAuth,PublicationController.probando);
 api.post('/publication',md_authz.ensureAuth,PublicationController.savePublication);
 api.get('/publications/:page?',md_authz.ensureAuth,PublicationController.getPublications);
+api.get('/publications-user/:user/:page?',md_authz.ensureAuth,PublicationController.getPublicationsUser);
 api.get('/publication/:id',md_authz.ensureAuth,PublicationController.getPublication);
 api.delete('/publication/:id',md_authz.ensureAuth,PublicationController.deletePublication);
 api.post('/upload-image-pub/:id',[md_authz.ensureAuth,md_upload],PublicationController.uploadImage);

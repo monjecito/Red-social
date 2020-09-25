@@ -9,21 +9,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto" *ngIf="identity">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']"><i class="fa fa-institution"
               style="font-size:24px;padding-right: 10px;"></i>Inicio</a>
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa fa-tasks"
+          <a class="nav-link" [routerLink]="['/timeline']" [routerLinkActive]="['active']"><i class="fa fa-tasks"
               style="font-size:20px;padding-right: 10px;"></i>Timeline</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="	fa fa-users" style="font-size:20px;padding-right: 10px;"></i>Gente</a>
+          <a class="nav-link" [routerLink]="['/gente']" [routerLinkActive]="['active']"><i class="	fa fa-users" style="font-size:20px;padding-right: 10px;"></i>Gente</a>
         </li>
         <!--Cargar imagen-->
-        <li class="nav-item">
-
+        <li class="nav-item" >
+          <img src="{{url+'get-image-user/'+identity.image}}" *ngIf="identity && identity.image" class="img"/>
         </li>
         <li class=" nav-item dropdown">
           <a class="nav-link dropdown-toogle" data-toggle="dropdown" href="#">
@@ -39,11 +39,6 @@
             <li><a class="pointer" (click)="logout()"><i class="	fa fa-users" style="font-size:20px;padding-right: 10px;"></i>Cerrar sesión</a>
             </li>
           </ul>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/registro']" [routerLinkActive]="['active']">
-            <i class="fa fa-address-book" style="font-size:20px;padding-right: 10px;"></i>Registro</a>
         </li>
       </ul>
 

@@ -25,7 +25,7 @@ function savePublication(req, res) {
     publication.text = params.text;
     publication.file = 'null';
     publication.user = req.user.sub;
-    publication.create_at = moment.unix();
+    publication.created_at = moment().unix();
 
     publication.save((err, publicationStored) => {
         if (err) return res.status(500).send({ message: 'Error al guardar la publicacion' });
@@ -53,8 +53,10 @@ function getPublications(req, res) {
         follows.forEach((follow) => {
             follows_clean.push(follow.followed);
         });
+        //Mostrar nuestras propias publicaciones
+        follows_clean.push(req.user.sub);
 
-        Publication.find({ user: { $in: follows_clean } }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {     //Buscar coincidencias dentro del array y mostrar sus documentos
+        Publication.find({ user: { "$in": follows_clean } }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {     //Buscar coincidencias dentro del array y mostrar sus documentos
             if (err) return res.status(500).send({ message: 'Error al devolver publicaciones' });
             if (!publications) return res.status(404).send({ message: 'No hay publicaciones' });
 
@@ -62,12 +64,40 @@ function getPublications(req, res) {
                 total_items: total,
                 pages: Math.ceil(total / itemsPerPage),
                 page: page,
+                items_per_page: itemsPerPage,
                 publications
             });
         });
     });
 }
+//Devolver todas las publicaciones de un usuario
+function getPublicationsUser(req, res) {
+    var page = 1;
+    if (req.params.page) {
+        page = req.params.page;
+    }
+    var user = req.user.sub;
 
+    if (req.params.user) {
+        user = req.params.user;
+    }
+    var itemsPerPage = 4;
+
+    //Mostrar nuestras propias publicaciones
+    Publication.find({ user: user }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {     //Buscar coincidencias dentro del array y mostrar sus documentos
+        if (err) return res.status(500).send({ message: 'Error al devolver publicaciones' });
+        if (!publications) return res.status(404).send({ message: 'No hay publicaciones' });
+        
+        return res.status(200).send({
+            total_items: total,
+            pages: Math.ceil(total / itemsPerPage),
+            page: page,
+            items_per_page: itemsPerPage,
+            publications
+        });
+    });
+}
+//Obtener una sola publicación
 function getPublication(req, res) {
     var publicationId = req.params.id;
 
@@ -97,18 +127,18 @@ function uploadImage(req, res) {
 
     if (req.files) {
         var file_path = req.files.image.path;
-      
+
         var file_split = file_path.split('\\');
-       
+
 
         var file_name = file_split[2];
-       
+
 
         var ext_split = file_name.split('\.');
-       
+
 
         var file_ext = ext_split[1];
-        
+
 
 
         if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
@@ -124,13 +154,13 @@ function uploadImage(req, res) {
 
                         return res.status(200).send({ publication: publicationUpdated });
                     });
-                }else{
+                } else {
                     return removeFilesOfUploads(res, file_path, 'No tienes permiso para actualizar esta publicación');
                 }
             });
 
         } else {
-            
+
         }
 
     } else {
@@ -167,5 +197,6 @@ module.exports = {
     getPublication,
     deletePublication,
     uploadImage,
-    getImageFile
+    getImageFile,
+    getPublicationsUser
 }

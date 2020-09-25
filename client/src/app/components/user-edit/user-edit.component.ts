@@ -52,7 +52,8 @@ export class UserEditComponent implements OnInit {
           //Subida de la imagen del usuario
           this._uploadService.makeFileRequest(this.url+'upload-image-user/'+this.user._id,[],this.filesToUpload,this.token,'image')
           .then((result:any)=>{
-            this.user.image=result.image;
+            this.user.image=result.user.image;
+            console.log(this.user.image);
             localStorage.setItem('identity',JSON.stringify(this.user));
           });
         }
@@ -72,7 +73,7 @@ export class UserEditComponent implements OnInit {
 
   fileChangeEvent(fileInput:any){
     this.filesToUpload=<Array<File>>fileInput.target.files;
-   
+   console.log(this.filesToUpload);
   }
 
 }

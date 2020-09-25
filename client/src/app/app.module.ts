@@ -3,13 +3,19 @@ import { NgModule } from '@angular/core';
 import {routing,appRoutingProviders} from './app.routing';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-
+import {MomentModule} from 'ngx-moment';
 //COMPONENTES
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { UsersComponent } from './components/users/users.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
+import { PublicationsComponent } from './components/publications/publications.component';
+import { ProfileComponent } from './components/profile/profile.component';
+
 
 @NgModule({
   declarations: [
@@ -17,13 +23,20 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    UserEditComponent
+    UserEditComponent,
+    UsersComponent,
+    SidebarComponent,
+    TimelineComponent,
+    PublicationsComponent,
+    ProfileComponent,
+   
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routing
+    routing,
+    MomentModule
   ],
   providers: [appRoutingProviders],
   bootstrap: [AppComponent]
