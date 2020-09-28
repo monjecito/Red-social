@@ -55,6 +55,9 @@
 
 
 /*GENTE */
+.people{
+    min-height: 500px;
+}
  .item-user ,
  .item-publication{
      padding-top: -20px;

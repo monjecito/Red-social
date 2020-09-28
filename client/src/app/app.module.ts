@@ -15,6 +15,9 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { PublicationsComponent } from './components/publications/publications.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { FollowingComponent } from './components/following/following.component';
+import { FollowedComponent } from './components/followed/followed.component';
+
 
 
 @NgModule({
@@ -29,6 +32,9 @@ import { ProfileComponent } from './components/profile/profile.component';
     TimelineComponent,
     PublicationsComponent,
     ProfileComponent,
+    FollowingComponent,
+    FollowedComponent,
+   
    
   ],
   imports: [

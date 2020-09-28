@@ -1,7 +1,7 @@
 'use strict'
 
 var moment = require('moment');
-var mongoosePaginate = require('mongoose-pagination');
+var mongoosePaginate = require('mongoose-pagination');      //Listado de mensajes
 
 var User = require('../models/user');
 var Follow = require('../models/follow');
@@ -15,6 +15,7 @@ function probando(req, res) {
 
 //Comprobaciones y en caso correcto almacenará el mensaje con el contenido, id del receptor y el id del emitter(token)
 function saveMessage(req, res) {
+    //Acceder variables que llegan desde post
     var params = req.body;
 
     if (!params.text || !params.receiver) return res.status(200).send({ Message: 'Envía los datos necesarios' });
@@ -38,9 +39,8 @@ function saveMessage(req, res) {
 
 //Mostrar mensajes recibidos paginados del usuario en el que esté logeado
 function getReceivedMessages(req, res) {
-    var userId = req.params.sub;
-
-
+    var userId = req.user.sub;
+ 
     var page = 1;
     if (req.params.page) {
         page = req.params.page;
@@ -51,7 +51,7 @@ function getReceivedMessages(req, res) {
         if (err) return res.status(500).send({ Message: 'Error en la petición' });
 
         if (!messages) if (err) return res.status(404).send({ Message: 'No hay mensajes que mostrar' });
-
+        console.log(messages);
         return res.status(200).send({
             total: total,
             pages: Math.ceil(total / itemsPerPage),
@@ -64,7 +64,7 @@ function getReceivedMessages(req, res) {
 
 //Mensajes enviados
 function getEmmitMessages(req, res) {
-    var userId = req.params.sub;
+    var userId = req.user.sub;
 
 
     var page = 1;

@@ -117,7 +117,6 @@ function deletePublication(req, res) {
 
         if (err) return res.status(500).send({ message: 'Error al borrar publicaciones' });
 
-        if (!publicationRemoved) return res.status(404).send({ message: 'No se ha eliminado la publicación' });
 
         return res.status(200).send({ message: 'Publicacion eliminada correctamente' });
     });

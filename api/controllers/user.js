@@ -189,7 +189,13 @@ function getUsers(req, res) {
         if (!users) return res.status(404).send({ message: "No hay Usuarios" });
 
         followUserIds(user_id).then((response) => {
-            return res.status(200).send({ message: "Resultados", users, users_following: response.following, users_followed: response.followed, total, pages: Math.ceil(total / itemsPerPage) });
+            return res.status(200).send({ 
+                message: "Resultados",
+                 users,
+                  users_following: response.following,
+                   users_followed: response.followed,
+                    total,
+                     pages: Math.ceil(total / itemsPerPage) });
         });
     });
 }

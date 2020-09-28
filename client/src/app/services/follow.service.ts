@@ -24,12 +24,39 @@ export class FollowService {
     }
 
     //Eliminar follow en la BD
-    deleteFollow(token,id):Observable<any> {
+    deleteFollow(token, id): Observable<any> {
         let headers = new HttpHeaders()
             .set('Content-type', 'application/json')
             .set('Authorization', token);
 
 
-            return this._http.delete(this.url+'follow/'+id,{headers:headers});
+        return this._http.delete(this.url + 'follow/' + id, { headers: headers });
     }
+
+    //Obtener los seguimientos de un usuario
+    getFollowing(token, userId = null, page = 1): Observable<any> {
+        let headers = new HttpHeaders()
+            .set('Content-type', 'application/json')
+            .set('Authorization', token);
+
+        var url = this.url + 'following';
+        if (userId != null) {
+            url = this.url + 'following/' + userId + '/' + page;
+        }
+        return this._http.get(url, { headers: headers });
+    }
+
+    //Obtener los seguidores que tiene un usuario
+    getFollowed(token, userId = null, page = 1): Observable<any> {
+        let headers = new HttpHeaders()
+            .set('Content-type', 'application/json')
+            .set('Authorization', token);
+
+        var url = this.url + 'followed';
+        if (userId != null) {
+            url = this.url + 'followed/' + userId + '/' + page;
+        }
+        return this._http.get(url, { headers: headers });
+    }
+
 }

@@ -24,6 +24,7 @@ export class TimelineComponent implements OnInit {
   public pages;
   public itemsPerPage;
   public publications: Publication[];
+  public showImage;
 
   constructor(
     private _route: ActivatedRoute,
@@ -85,19 +86,40 @@ export class TimelineComponent implements OnInit {
   public noMore = false;
   //Mostrar más publicaciones mientras existan
   viewMore() {
-    console.log(this.publications.length);
-    console.log(this.total - this.itemsPerPage);
-    if (this.publications.length == this.total) {
+    this.page += 1;
+
+    if (this.page == this.pages) {
       this.noMore = true;
-    } else {
-      this.page += 1;
-    }
+    } 
 
     this.getPublications(this.page, true);
   }
 
   //Refrescar las publicaciones una vez creadas llamando al evento emitido en el componente Sidebar
-  refresh(event){
+  refresh(event=null){
     this.getPublications(1);
   }
+
+  //Mostrar la imagen de cada publicación que corresponda
+  showThisImage(id){
+    this.showImage=id;
+    console.log(id);
+  }
+
+  //Ocultar la imagen de la publicación
+  hideThisImage(id){
+    this.showImage=null;
+  }
+
+  deletePublication(id){
+    this._publicationService.deletePublication(this.token,id).subscribe(
+      response=>{
+        this.refresh();
+      },
+      error=>{
+        console.log(<any>error);
+      }
+    );
+  }
+  
 }

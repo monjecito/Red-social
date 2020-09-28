@@ -62,7 +62,7 @@ export class PublicationsComponent implements OnInit {
             var arrayB = response.publications;               //Añadir elementos al array de publicaciones para mostrar más
             this.publications = arrayA.concat(arrayB);
 
-           $("html,body").animate({scrollTop:$('body').prop("scrollHeight")},800);
+           $("html,body").animate({scrollTop:$('html').prop("scrollHeight")},800);
           }
 
 
@@ -88,13 +88,12 @@ export class PublicationsComponent implements OnInit {
   public noMore = false;
   //Mostrar más publicaciones
   viewMore() {
-    console.log(this.publications.length);
-    console.log(this.total - this.itemsPerPage);
-    if (this.publications.length == this.total) {
+    this.page += 1;
+
+
+    if (this.page == this.pages) {
       this.noMore = true;
-    } else {
-      this.page += 1;
-    }
+    } 
 
     this.getPublications(this.user,this.page, true);
   }

@@ -10,7 +10,7 @@
         </div>
 
         <div class="name-surname pull-left">
-            <a href="#" class="username">
+            <a [routerLink]="['/perfil',identity._id]" class="username">
                 {{identity.name+'  '+identity.surname}}
             </a>
             <p class="nickname">{{identity.nick}}</p>
@@ -21,7 +21,7 @@
 
         <div class="stats" *ngIf="stats">
             <div class="following-data">
-                <a href="#">
+                <a [routerLink]="['/siguiendo',identity._id,1]">
                     <span class="label-stats">
                         Siguiendo
                     </span>
@@ -33,7 +33,7 @@
                 </a>
             </div>
             <div class="following-data">
-                <a href="#">
+                <a [routerLink]="['/seguidores',identity._id,1]">
                     <span class="label-stats">
                         Seguidores
                     </span>
@@ -45,7 +45,7 @@
                 </a>
             </div>
             <div class="following-data">
-                <a href="#">
+                <a [routerLink]="['/perfil',identity._id]">
                     <span class="label-stats">
                        Publicaciones
                     </span>
@@ -67,7 +67,7 @@
     <div class="alert alert-danger" *ngIf="status=='error'">
         La publicación no enviada
     </div>
-    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm);sendPublication($event);" class="col-lg-10">
+    <form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm,$event);" class="col-lg-10">
         <p>
             <label>¿Que estas pensando?</label>
             <textarea name="text" #text="ngModel" [(ngModel)]="publication.text" class="form-control" required></textarea>
@@ -77,7 +77,7 @@
         </p>
         <p>
             <label>Sube tu foto</label>
-            <input type="file" placeholder="Subir imagen" />
+            <input type="file" placeholder="Subir imagen" (change)="fileChangeEvent($event)"/>
         </p>
 
         <input type="submit" value="Enviar" class="btn btn-success pull-center" [disabled]="!newPubForm.form.valid" />
