@@ -1,4 +1,4 @@
-<div class="col col-lg-8">
+<div class="col col-lg-8" >
     <h1 class="h1-strong">{{title}}</h1>
 
     <div class="people">
@@ -9,13 +9,13 @@
             
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="image-user pull-left">
+                    <div class="image-user pull-left" *ngIf="user._id !=identity._id">
                             <a href="#">
                                 <img src="{{url+'get-image-user/'+user.image}}" *ngIf="user.image" />
                                 <img src="assets/profile.jpg" *ngIf="!user.image" />
                             </a>
                     </div>
-                    <div class="user-name pull-left">
+                    <div class="user-name pull-left" *ngIf="user._id !=identity._id">
                         <p class="name-surname">
                             <a [routerLink]="['/perfil',user._id]">{{user.name+' '+user.surname}} </a>
                         </p>

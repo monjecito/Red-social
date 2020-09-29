@@ -4,6 +4,10 @@ import {routing,appRoutingProviders} from './app.routing';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MomentModule} from 'ngx-moment';
+
+//Modulo custom
+import {MessagesModule} from './messages/messages.module';
+
 //COMPONENTES
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -19,6 +23,9 @@ import { FollowingComponent } from './components/following/following.component';
 import { FollowedComponent } from './components/followed/followed.component';
 
 
+//SERVICIOS
+import {UserService} from './services/user.service';
+import {UserGuard} from './services/user.guard';
 
 @NgModule({
   declarations: [
@@ -33,18 +40,17 @@ import { FollowedComponent } from './components/followed/followed.component';
     PublicationsComponent,
     ProfileComponent,
     FollowingComponent,
-    FollowedComponent,
-   
-   
+    FollowedComponent,   
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     routing,
-    MomentModule
+    MomentModule,
+    MessagesModule
   ],
-  providers: [appRoutingProviders],
+  providers: [appRoutingProviders,UserService,UserGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -21,6 +21,9 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/gente']" [routerLinkActive]="['active']"><i class="	fa fa-users" style="font-size:20px;padding-right: 10px;"></i>Gente</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/mensajes']" [routerLinkActive]="['active']"><i class="	fa fa-address-book-o" style="font-size:20px;padding-right: 10px;"></i>Mensajes</a>
+        </li>
         <!--Cargar imagen-->
         <li class="nav-item" >
           <img src="{{url+'get-image-user/'+identity.image}}" *ngIf="identity && identity.image" class="img"/>

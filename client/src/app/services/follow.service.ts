@@ -59,4 +59,13 @@ export class FollowService {
         return this._http.get(url, { headers: headers });
     }
 
+    //Devolver mis seguidores
+    getMyFollows(token):Observable<any>{
+        let headers = new HttpHeaders()
+        .set('Content-type', 'application/json')
+        .set('Authorization', token);
+        
+        return this._http.get(this.url+'get-my-follows/'+true,{headers:headers});
+    }
+
 }
